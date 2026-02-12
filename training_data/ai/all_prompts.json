@@ -1,0 +1,505 @@
+{
+  "total": 100,
+  "prompts": [
+    {
+      "id": 1,
+      "prompt": "Write a Python class for a binary search tree with insert, search, and delete methods",
+      "filename": "ai_sample_001.py"
+    },
+    {
+      "id": 2,
+      "prompt": "Implement a stack using a linked list in Python",
+      "filename": "ai_sample_002.py"
+    },
+    {
+      "id": 3,
+      "prompt": "Create a queue class with enqueue, dequeue, and peek operations",
+      "filename": "ai_sample_003.py"
+    },
+    {
+      "id": 4,
+      "prompt": "Write a function to implement a hash table with collision handling",
+      "filename": "ai_sample_004.py"
+    },
+    {
+      "id": 5,
+      "prompt": "Implement a min heap data structure in Python",
+      "filename": "ai_sample_005.py"
+    },
+    {
+      "id": 6,
+      "prompt": "Create a doubly linked list with insert and delete operations",
+      "filename": "ai_sample_006.py"
+    },
+    {
+      "id": 7,
+      "prompt": "Write a class for a circular buffer",
+      "filename": "ai_sample_007.py"
+    },
+    {
+      "id": 8,
+      "prompt": "Implement a trie (prefix tree) for string searching",
+      "filename": "ai_sample_008.py"
+    },
+    {
+      "id": 9,
+      "prompt": "Create a graph class with adjacency list representation",
+      "filename": "ai_sample_009.py"
+    },
+    {
+      "id": 10,
+      "prompt": "Write a priority queue using heapq",
+      "filename": "ai_sample_010.py"
+    },
+    {
+      "id": 11,
+      "prompt": "Implement a disjoint set (union-find) data structure",
+      "filename": "ai_sample_011.py"
+    },
+    {
+      "id": 12,
+      "prompt": "Create a balanced binary search tree (AVL tree)",
+      "filename": "ai_sample_012.py"
+    },
+    {
+      "id": 13,
+      "prompt": "Write a function to implement LRU cache",
+      "filename": "ai_sample_013.py"
+    },
+    {
+      "id": 14,
+      "prompt": "Implement a bloom filter in Python",
+      "filename": "ai_sample_014.py"
+    },
+    {
+      "id": 15,
+      "prompt": "Create a sparse matrix class",
+      "filename": "ai_sample_015.py"
+    },
+    {
+      "id": 16,
+      "prompt": "Write a segment tree for range queries",
+      "filename": "ai_sample_016.py"
+    },
+    {
+      "id": 17,
+      "prompt": "Implement a skip list data structure",
+      "filename": "ai_sample_017.py"
+    },
+    {
+      "id": 18,
+      "prompt": "Create a B-tree structure",
+      "filename": "ai_sample_018.py"
+    },
+    {
+      "id": 19,
+      "prompt": "Write a red-black tree implementation",
+      "filename": "ai_sample_019.py"
+    },
+    {
+      "id": 20,
+      "prompt": "Implement a suffix tree",
+      "filename": "ai_sample_020.py"
+    },
+    {
+      "id": 21,
+      "prompt": "Write a function to perform quicksort on a list",
+      "filename": "ai_sample_021.py"
+    },
+    {
+      "id": 22,
+      "prompt": "Implement merge sort algorithm in Python",
+      "filename": "ai_sample_022.py"
+    },
+    {
+      "id": 23,
+      "prompt": "Create a function for binary search",
+      "filename": "ai_sample_023.py"
+    },
+    {
+      "id": 24,
+      "prompt": "Write a breadth-first search algorithm for graphs",
+      "filename": "ai_sample_024.py"
+    },
+    {
+      "id": 25,
+      "prompt": "Implement depth-first search for tree traversal",
+      "filename": "ai_sample_025.py"
+    },
+    {
+      "id": 26,
+      "prompt": "Create a function for finding the shortest path using Dijkstra's algorithm",
+      "filename": "ai_sample_026.py"
+    },
+    {
+      "id": 27,
+      "prompt": "Write a dynamic programming solution for the knapsack problem",
+      "filename": "ai_sample_027.py"
+    },
+    {
+      "id": 28,
+      "prompt": "Implement the Bellman-Ford algorithm",
+      "filename": "ai_sample_028.py"
+    },
+    {
+      "id": 29,
+      "prompt": "Create a function to find all permutations of a string",
+      "filename": "ai_sample_029.py"
+    },
+    {
+      "id": 30,
+      "prompt": "Write a function to solve the N-queens problem",
+      "filename": "ai_sample_030.py"
+    },
+    {
+      "id": 31,
+      "prompt": "Implement Kruskal's algorithm for minimum spanning tree",
+      "filename": "ai_sample_031.py"
+    },
+    {
+      "id": 32,
+      "prompt": "Create a function for longest common subsequence",
+      "filename": "ai_sample_032.py"
+    },
+    {
+      "id": 33,
+      "prompt": "Write an algorithm to detect cycles in a graph",
+      "filename": "ai_sample_033.py"
+    },
+    {
+      "id": 34,
+      "prompt": "Implement Floyd-Warshall algorithm",
+      "filename": "ai_sample_034.py"
+    },
+    {
+      "id": 35,
+      "prompt": "Create a function for topological sorting",
+      "filename": "ai_sample_035.py"
+    },
+    {
+      "id": 36,
+      "prompt": "Write a KMP pattern matching algorithm",
+      "filename": "ai_sample_036.py"
+    },
+    {
+      "id": 37,
+      "prompt": "Implement A* pathfinding algorithm",
+      "filename": "ai_sample_037.py"
+    },
+    {
+      "id": 38,
+      "prompt": "Create a function for matrix chain multiplication",
+      "filename": "ai_sample_038.py"
+    },
+    {
+      "id": 39,
+      "prompt": "Write a Rabin-Karp string matching algorithm",
+      "filename": "ai_sample_039.py"
+    },
+    {
+      "id": 40,
+      "prompt": "Implement bubble sort with optimization",
+      "filename": "ai_sample_040.py"
+    },
+    {
+      "id": 41,
+      "prompt": "Write a function to reverse a string without using built-in reverse",
+      "filename": "ai_sample_041.py"
+    },
+    {
+      "id": 42,
+      "prompt": "Create a function to check if a string is a palindrome",
+      "filename": "ai_sample_042.py"
+    },
+    {
+      "id": 43,
+      "prompt": "Implement a function to find all anagrams of a word",
+      "filename": "ai_sample_043.py"
+    },
+    {
+      "id": 44,
+      "prompt": "Write a function to compress a string (e.g., 'aaabb' -> 'a3b2')",
+      "filename": "ai_sample_044.py"
+    },
+    {
+      "id": 45,
+      "prompt": "Create a function to validate parentheses in an expression",
+      "filename": "ai_sample_045.py"
+    },
+    {
+      "id": 46,
+      "prompt": "Implement a function to find the longest substring without repeating characters",
+      "filename": "ai_sample_046.py"
+    },
+    {
+      "id": 47,
+      "prompt": "Write a function to convert a string to snake_case",
+      "filename": "ai_sample_047.py"
+    },
+    {
+      "id": 48,
+      "prompt": "Create a function to extract all email addresses from text",
+      "filename": "ai_sample_048.py"
+    },
+    {
+      "id": 49,
+      "prompt": "Implement a function to generate all possible substrings",
+      "filename": "ai_sample_049.py"
+    },
+    {
+      "id": 50,
+      "prompt": "Write a function to calculate edit distance between two strings",
+      "filename": "ai_sample_050.py"
+    },
+    {
+      "id": 51,
+      "prompt": "Create a function to parse a CSV string with quoted fields",
+      "filename": "ai_sample_051.py"
+    },
+    {
+      "id": 52,
+      "prompt": "Implement a function to validate email addresses with regex",
+      "filename": "ai_sample_052.py"
+    },
+    {
+      "id": 53,
+      "prompt": "Write a function to find the most frequent word in text",
+      "filename": "ai_sample_053.py"
+    },
+    {
+      "id": 54,
+      "prompt": "Create a function to check if strings are rotations of each other",
+      "filename": "ai_sample_054.py"
+    },
+    {
+      "id": 55,
+      "prompt": "Implement a function to generate acronyms from phrases",
+      "filename": "ai_sample_055.py"
+    },
+    {
+      "id": 56,
+      "prompt": "Write a function to read a large file line by line efficiently",
+      "filename": "ai_sample_056.py"
+    },
+    {
+      "id": 57,
+      "prompt": "Create a function to parse JSON files with error handling",
+      "filename": "ai_sample_057.py"
+    },
+    {
+      "id": 58,
+      "prompt": "Implement a file watcher that monitors directory changes",
+      "filename": "ai_sample_058.py"
+    },
+    {
+      "id": 59,
+      "prompt": "Write a function to merge multiple CSV files",
+      "filename": "ai_sample_059.py"
+    },
+    {
+      "id": 60,
+      "prompt": "Create a context manager for file operations",
+      "filename": "ai_sample_060.py"
+    },
+    {
+      "id": 61,
+      "prompt": "Implement a function to recursively search for files",
+      "filename": "ai_sample_061.py"
+    },
+    {
+      "id": 62,
+      "prompt": "Write a function to copy files with progress tracking",
+      "filename": "ai_sample_062.py"
+    },
+    {
+      "id": 63,
+      "prompt": "Create a function to compress and decompress files",
+      "filename": "ai_sample_063.py"
+    },
+    {
+      "id": 64,
+      "prompt": "Implement a log file analyzer",
+      "filename": "ai_sample_064.py"
+    },
+    {
+      "id": 65,
+      "prompt": "Write a function to safely write to files with atomic operations",
+      "filename": "ai_sample_065.py"
+    },
+    {
+      "id": 66,
+      "prompt": "Create a simple REST API client with requests",
+      "filename": "ai_sample_066.py"
+    },
+    {
+      "id": 67,
+      "prompt": "Write a function to scrape product prices from a website",
+      "filename": "ai_sample_067.py"
+    },
+    {
+      "id": 68,
+      "prompt": "Implement a rate limiter for API calls",
+      "filename": "ai_sample_068.py"
+    },
+    {
+      "id": 69,
+      "prompt": "Create a function to download files from URLs with retry logic",
+      "filename": "ai_sample_069.py"
+    },
+    {
+      "id": 70,
+      "prompt": "Write a web scraper with BeautifulSoup",
+      "filename": "ai_sample_070.py"
+    },
+    {
+      "id": 71,
+      "prompt": "Implement a simple HTTP server",
+      "filename": "ai_sample_071.py"
+    },
+    {
+      "id": 72,
+      "prompt": "Create a function to parse RSS feeds",
+      "filename": "ai_sample_072.py"
+    },
+    {
+      "id": 73,
+      "prompt": "Write an async API client using aiohttp",
+      "filename": "ai_sample_073.py"
+    },
+    {
+      "id": 74,
+      "prompt": "Implement a function to validate URLs",
+      "filename": "ai_sample_074.py"
+    },
+    {
+      "id": 75,
+      "prompt": "Create a simple web crawler",
+      "filename": "ai_sample_075.py"
+    },
+    {
+      "id": 76,
+      "prompt": "Write a SQLite database wrapper class",
+      "filename": "ai_sample_076.py"
+    },
+    {
+      "id": 77,
+      "prompt": "Create a function to perform bulk inserts efficiently",
+      "filename": "ai_sample_077.py"
+    },
+    {
+      "id": 78,
+      "prompt": "Implement a simple ORM mapper",
+      "filename": "ai_sample_078.py"
+    },
+    {
+      "id": 79,
+      "prompt": "Write a database connection pool manager",
+      "filename": "ai_sample_079.py"
+    },
+    {
+      "id": 80,
+      "prompt": "Create a function to migrate database schema",
+      "filename": "ai_sample_080.py"
+    },
+    {
+      "id": 81,
+      "prompt": "Implement a query builder class",
+      "filename": "ai_sample_081.py"
+    },
+    {
+      "id": 82,
+      "prompt": "Write a function to backup and restore database",
+      "filename": "ai_sample_082.py"
+    },
+    {
+      "id": 83,
+      "prompt": "Create a simple transaction manager",
+      "filename": "ai_sample_083.py"
+    },
+    {
+      "id": 84,
+      "prompt": "Implement a database caching layer",
+      "filename": "ai_sample_084.py"
+    },
+    {
+      "id": 85,
+      "prompt": "Write a function to sanitize SQL inputs",
+      "filename": "ai_sample_085.py"
+    },
+    {
+      "id": 86,
+      "prompt": "Write a decorator to measure function execution time",
+      "filename": "ai_sample_086.py"
+    },
+    {
+      "id": 87,
+      "prompt": "Create a retry decorator with exponential backoff",
+      "filename": "ai_sample_087.py"
+    },
+    {
+      "id": 88,
+      "prompt": "Implement a memoization decorator",
+      "filename": "ai_sample_088.py"
+    },
+    {
+      "id": 89,
+      "prompt": "Write a function to generate random test data",
+      "filename": "ai_sample_089.py"
+    },
+    {
+      "id": 90,
+      "prompt": "Create a custom exception class hierarchy",
+      "filename": "ai_sample_090.py"
+    },
+    {
+      "id": 91,
+      "prompt": "Implement a logger with different severity levels",
+      "filename": "ai_sample_091.py"
+    },
+    {
+      "id": 92,
+      "prompt": "Write a function to validate credit card numbers",
+      "filename": "ai_sample_092.py"
+    },
+    {
+      "id": 93,
+      "prompt": "Create a date/time parser for various formats",
+      "filename": "ai_sample_093.py"
+    },
+    {
+      "id": 94,
+      "prompt": "Implement a simple dependency injection container",
+      "filename": "ai_sample_094.py"
+    },
+    {
+      "id": 95,
+      "prompt": "Write a function to calculate file checksums",
+      "filename": "ai_sample_095.py"
+    },
+    {
+      "id": 96,
+      "prompt": "Create a configuration manager for app settings",
+      "filename": "ai_sample_096.py"
+    },
+    {
+      "id": 97,
+      "prompt": "Implement a simple event emitter/listener pattern",
+      "filename": "ai_sample_097.py"
+    },
+    {
+      "id": 98,
+      "prompt": "Write a function to generate secure random passwords",
+      "filename": "ai_sample_098.py"
+    },
+    {
+      "id": 99,
+      "prompt": "Create a rate-limited function decorator",
+      "filename": "ai_sample_099.py"
+    },
+    {
+      "id": 100,
+      "prompt": "Implement a simple state machine",
+      "filename": "ai_sample_100.py"
+    }
+  ]
+}

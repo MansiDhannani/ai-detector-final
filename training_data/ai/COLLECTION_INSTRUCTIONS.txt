@@ -1,0 +1,256 @@
+
+# AI CODE COLLECTION INSTRUCTIONS
+# ================================
+
+GOAL: Collect 100-200 AI-generated code samples
+
+METHOD 1: ChatGPT (Recommended)
+--------------------------------
+1. Open ChatGPT (chat.openai.com)
+2. Copy each prompt below
+3. Paste into ChatGPT
+4. Copy ENTIRE code response
+5. Save as ai_sample_XXX.py in this folder
+
+METHOD 2: Claude
+--------------------------------
+Same process as ChatGPT using claude.ai
+
+METHOD 3: GitHub Copilot
+--------------------------------
+1. Open VS Code with Copilot
+2. Type prompt as comment
+3. Let Copilot generate code
+4. Save suggestion
+
+IMPORTANT TIPS:
+--------------
+✅ Copy the COMPLETE code response
+✅ Include comments and docstrings  
+✅ Don't edit or clean the code
+✅ Save exactly as AI generated
+✅ Name files: ai_sample_001.py, ai_sample_002.py, etc.
+
+PROMPTS (100 total):
+===================
+
+
+1. Write a Python class for a binary search tree with insert, search, and delete methods
+
+2. Implement a stack using a linked list in Python
+
+3. Create a queue class with enqueue, dequeue, and peek operations
+
+4. Write a function to implement a hash table with collision handling
+
+5. Implement a min heap data structure in Python
+
+6. Create a doubly linked list with insert and delete operations
+
+7. Write a class for a circular buffer
+
+8. Implement a trie (prefix tree) for string searching
+
+9. Create a graph class with adjacency list representation
+
+10. Write a priority queue using heapq
+
+11. Implement a disjoint set (union-find) data structure
+
+12. Create a balanced binary search tree (AVL tree)
+
+13. Write a function to implement LRU cache
+
+14. Implement a bloom filter in Python
+
+15. Create a sparse matrix class
+
+16. Write a segment tree for range queries
+
+17. Implement a skip list data structure
+
+18. Create a B-tree structure
+
+19. Write a red-black tree implementation
+
+20. Implement a suffix tree
+
+21. Write a function to perform quicksort on a list
+
+22. Implement merge sort algorithm in Python
+
+23. Create a function for binary search
+
+24. Write a breadth-first search algorithm for graphs
+
+25. Implement depth-first search for tree traversal
+
+26. Create a function for finding the shortest path using Dijkstra's algorithm
+
+27. Write a dynamic programming solution for the knapsack problem
+
+28. Implement the Bellman-Ford algorithm
+
+29. Create a function to find all permutations of a string
+
+30. Write a function to solve the N-queens problem
+
+31. Implement Kruskal's algorithm for minimum spanning tree
+
+32. Create a function for longest common subsequence
+
+33. Write an algorithm to detect cycles in a graph
+
+34. Implement Floyd-Warshall algorithm
+
+35. Create a function for topological sorting
+
+36. Write a KMP pattern matching algorithm
+
+37. Implement A* pathfinding algorithm
+
+38. Create a function for matrix chain multiplication
+
+39. Write a Rabin-Karp string matching algorithm
+
+40. Implement bubble sort with optimization
+
+41. Write a function to reverse a string without using built-in reverse
+
+42. Create a function to check if a string is a palindrome
+
+43. Implement a function to find all anagrams of a word
+
+44. Write a function to compress a string (e.g., 'aaabb' -> 'a3b2')
+
+45. Create a function to validate parentheses in an expression
+
+46. Implement a function to find the longest substring without repeating characters
+
+47. Write a function to convert a string to snake_case
+
+48. Create a function to extract all email addresses from text
+
+49. Implement a function to generate all possible substrings
+
+50. Write a function to calculate edit distance between two strings
+
+51. Create a function to parse a CSV string with quoted fields
+
+52. Implement a function to validate email addresses with regex
+
+53. Write a function to find the most frequent word in text
+
+54. Create a function to check if strings are rotations of each other
+
+55. Implement a function to generate acronyms from phrases
+
+56. Write a function to read a large file line by line efficiently
+
+57. Create a function to parse JSON files with error handling
+
+58. Implement a file watcher that monitors directory changes
+
+59. Write a function to merge multiple CSV files
+
+60. Create a context manager for file operations
+
+61. Implement a function to recursively search for files
+
+62. Write a function to copy files with progress tracking
+
+63. Create a function to compress and decompress files
+
+64. Implement a log file analyzer
+
+65. Write a function to safely write to files with atomic operations
+
+66. Create a simple REST API client with requests
+
+67. Write a function to scrape product prices from a website
+
+68. Implement a rate limiter for API calls
+
+69. Create a function to download files from URLs with retry logic
+
+70. Write a web scraper with BeautifulSoup
+
+71. Implement a simple HTTP server
+
+72. Create a function to parse RSS feeds
+
+73. Write an async API client using aiohttp
+
+74. Implement a function to validate URLs
+
+75. Create a simple web crawler
+
+76. Write a SQLite database wrapper class
+
+77. Create a function to perform bulk inserts efficiently
+
+78. Implement a simple ORM mapper
+
+79. Write a database connection pool manager
+
+80. Create a function to migrate database schema
+
+81. Implement a query builder class
+
+82. Write a function to backup and restore database
+
+83. Create a simple transaction manager
+
+84. Implement a database caching layer
+
+85. Write a function to sanitize SQL inputs
+
+86. Write a decorator to measure function execution time
+
+87. Create a retry decorator with exponential backoff
+
+88. Implement a memoization decorator
+
+89. Write a function to generate random test data
+
+90. Create a custom exception class hierarchy
+
+91. Implement a logger with different severity levels
+
+92. Write a function to validate credit card numbers
+
+93. Create a date/time parser for various formats
+
+94. Implement a simple dependency injection container
+
+95. Write a function to calculate file checksums
+
+96. Create a configuration manager for app settings
+
+97. Implement a simple event emitter/listener pattern
+
+98. Write a function to generate secure random passwords
+
+99. Create a rate-limited function decorator
+
+100. Implement a simple state machine
+
+
+COLLECTION CHECKLIST:
+====================
+[ ] Got ChatGPT/Claude account
+[ ] Created training_data/ai/ folder
+[ ] Started with prompt #1
+[ ] Saving each response as ai_sample_XXX.py
+[ ] Target: 100 samples minimum
+[ ] Current progress: ___/100
+
+QUALITY CHECK:
+=============
+- Each file should be 20-100 lines
+- Code should be complete and runnable
+- Include AI-typical features (docstrings, comments, error handling)
+- Diverse types (algorithms, classes, functions)
+
+After collecting 100 samples, run:
+  python check_dataset.py

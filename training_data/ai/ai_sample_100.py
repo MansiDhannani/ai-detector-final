@@ -1,0 +1,7 @@
+98.# Secure Random Password Generator
+import secrets
+import string
+
+def generate_password(length=12):
+    chars = string.ascii_letters + string.digits + "!@#$%"
+    return ''.join(secrets.choice(chars) for _ in range(length))
