@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends git && \
 COPY requirements.txt .
 
 # Install CPU-only torch to save ~700MB and speed up build
-RUN pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu && \
+# Explicitly require v2.6.0+ to fix CVE-2025-32434 security requirement
+RUN pip install --no-cache-dir "torch>=2.6.0" --index-url https://download.pytorch.org/whl/cpu && \
     pip install --no-cache-dir -r requirements.txt
 
 # Pre-download CodeBERT
