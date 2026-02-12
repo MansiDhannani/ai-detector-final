@@ -22,6 +22,7 @@ import ast
 import os
 import joblib
 import re
+import gc
 from pathlib import Path
 import json
 from typing import Dict, List, Tuple
@@ -458,6 +459,7 @@ class HybridAIDetector:
         self.feature_detector.feature_names = joblib.load(feature_file)
         self.feature_detector.is_trained = True
         print(f"✅ Loaded ensemble from {model_file}")
+        gc.collect() # Clear memory after heavy model loading
 
     def save_model(self, path="saved_models"):
         os.makedirs(path, exist_ok=True)

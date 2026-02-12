@@ -1,5 +1,8 @@
 training_data/
+raw_data/
 __pycache__/
 .git/
+.github/
 venv/
+*.pkl
 *.pyc
