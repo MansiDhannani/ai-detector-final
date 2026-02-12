@@ -440,7 +440,6 @@ class HybridAIDetector:
         
         if not os.path.exists(model_file):
             raise FileNotFoundError(f"Model file not found at {model_file}. Ensure models are pushed to the repository.")
-            
         ensemble_data = joblib.load(model_file)
         
         self.feature_detector.model = ensemble_data.get("xgb_base_model")
@@ -731,6 +730,72 @@ def fibonacci(n):
 if __name__ == "__main__":
     demo()
 
+<<<<<<< HEAD
+=======
+# ===============================
+# API-SAFE PREDICTION FUNCTION
+# ===============================
+
+def detect_ai_code(code, xgb_model, codebert_clf, weight_xgb, weight_codebert):
+    """
+    Wrapper function for frontend / API usage
+    """
+
+    # 1. Detect language
+    language = detect_language(code)
+
+    # 2. Feature-based prediction (XGBoost)
+    features = np.array([extract_features(code, language)])
+    xgb_prob = xgb_model.predict_proba(features)[:, 1][0]
+
+    # 3. CodeBERT prediction
+    embeddings = encode_code([code])
+    codebert_prob = codebert_clf.predict_proba(embeddings.numpy())[:, 1][0]
+
+    # 4. Ensemble
+    final_prob = (
+        xgb_prob * weight_xgb +
+        codebert_prob * weight_codebert
+    )
+
+    label = "AI-generated" if final_prob >= 0.5 else "Human"
+
+    return label, float(final_prob), language
+
+# Global instances for API performance
+_extractor = None
+_bert_wrapper = None
+
+def detect_language(code):
+    """Global helper for language detection"""
+    global _extractor
+    if _extractor is None: _extractor = FeatureExtractor()
+    return _extractor.detect_language(code)
+
+def extract_features(code, language):
+    """Global helper for feature extraction"""
+    global _extractor
+    if _extractor is None: _extractor = FeatureExtractor()
+    return list(_extractor.extract_all_features(code).values())
+
+def encode_code(codes):
+    """Global helper for CodeBERT embeddings"""
+    global _bert_wrapper
+    if _bert_wrapper is None: _bert_wrapper = CodeBERTWrapper()
+    return _bert_wrapper.get_embeddings(codes)
+
+import joblib
+
+def load_models(path="hybrid_ai_detector.pkl"):
+    data = joblib.load(path)
+    return (
+        data["xgb_model"],
+        data["codebert_clf"],
+        data["weight_xgb"],
+        data["weight_codebert"]
+    )
+
+>>>>>>> dc88dbd31fd1e61b7d38d730c9787204cb8f6913
 _detector_instance = None
 
 def detect(text: str):
@@ -740,6 +805,7 @@ def detect(text: str):
     """
     global _detector_instance
     if _detector_instance is None:
+<<<<<<< HEAD
         try:
             # Railway environment variable check
             use_gpu = os.environ.get("USE_GPU", "false").lower() == "true"
