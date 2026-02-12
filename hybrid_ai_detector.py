@@ -245,15 +245,16 @@ class CodeBERTWrapper:
         
     def get_embeddings(self, codes: List[str]) -> torch.Tensor:
         """Extract [CLS] token embeddings"""
+        self.model.to(self.device)
         self.model.eval()
         all_embeddings = []
         batch_size = 8
-        for i in range(0, len(codes), batch_size):
-            batch = codes[i:i+batch_size]
-            encoded = self.tokenizer(
-                batch, padding=True, truncation=True, max_length=512, return_tensors='pt'
-            ).to(self.device)
-            with torch.no_grad():
+        with torch.inference_mode():
+            for i in range(0, len(codes), batch_size):
+                batch = codes[i:i+batch_size]
+                encoded = self.tokenizer(
+                    batch, padding=True, truncation=True, max_length=512, return_tensors='pt'
+                ).to(self.device)
                 outputs = self.model(**encoded)
                 embeddings = outputs.last_hidden_state[:, 0, :]
                 all_embeddings.append(embeddings.cpu())
