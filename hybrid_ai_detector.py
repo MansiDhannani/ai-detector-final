@@ -439,8 +439,23 @@ class HybridAIDetector:
         model_file = f"{path}/hybrid_ai_detector_ensemble.pkl"
         feature_file = f"{path}/feature_names_v2.pkl"
         
+        # Check for Git LFS pointer files (common cause of KeyError: 118)
+        for f_path in [model_file, feature_file]:
+            if os.path.exists(f_path):
+                with open(f_path, 'rb') as f:
+                    header = f.read(100)
+                    if b"version https://git-lfs" in header:
+                        raise RuntimeError(
+                            f"File {f_path} is a Git LFS pointer, not the actual model data. "
+                            "Ensure Git LFS is installed locally and files are fully pushed with 'git lfs push origin main'."
+                        )
+
         if not os.path.exists(model_file):
             raise FileNotFoundError(f"Model file not found at {model_file}. Ensure models are pushed to the repository.")
+        
+        if not os.path.exists(feature_file):
+            raise FileNotFoundError(f"Critical Error: Feature names file not found at {feature_file}.")
+
         ensemble_data = joblib.load(model_file)
         
         self.feature_detector.model = ensemble_data.get("xgb_base_model")
