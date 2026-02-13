@@ -20,4 +20,5 @@ RUN pip install --no-cache-dir --upgrade pip && \
 RUN python -c "from transformers import AutoTokenizer, AutoModel; AutoTokenizer.from_pretrained('microsoft/codebert-base'); AutoModel.from_pretrained('microsoft/codebert-base')"
 
 COPY . .
-CMD ["python", "app.py"]
+# Ensure we use the shell form to expand the PORT variable correctly
+CMD uvicorn api:app --host 0.0.0.0 --port ${PORT:-7860}

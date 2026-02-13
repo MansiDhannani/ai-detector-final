@@ -441,10 +441,6 @@ class HybridAIDetector:
         
         if not os.path.exists(model_file):
             raise FileNotFoundError(f"Model file not found at {model_file}. Ensure models are pushed to the repository.")
-        
-        if not os.path.exists(feature_file):
-            raise FileNotFoundError(f"Feature names file not found at {feature_file}.")
-            
         ensemble_data = joblib.load(model_file)
         
         self.feature_detector.model = ensemble_data.get("xgb_base_model")

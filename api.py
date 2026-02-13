@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from hybrid_ai_detector import HybridAIDetector
+import os
 
 app = FastAPI()
 
@@ -13,7 +14,9 @@ app.add_middleware(
 
 # Initialize detector
 detector = HybridAIDetector()
-detector.load_pretrained()
+# Use absolute path resolution for the Railway environment
+base_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "saved_models")
+detector.load_pretrained(path=base_path)
 
 @app.get("/")
 def root():
