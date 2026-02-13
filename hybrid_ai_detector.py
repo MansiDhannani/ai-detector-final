@@ -442,12 +442,13 @@ class HybridAIDetector:
         # Check for Git LFS pointer files (common cause of KeyError: 118)
         for f_path in [model_file, feature_file]:
             if os.path.exists(f_path):
+                file_size = os.path.getsize(f_path)
                 with open(f_path, 'rb') as f:
                     header = f.read(100)
                     if b"version https://git-lfs" in header:
                         raise RuntimeError(
-                            f"File {f_path} is a Git LFS pointer, not the actual model data. "
-                            "Ensure Git LFS is installed locally and files are fully pushed with 'git lfs push origin main'."
+                            f"File {f_path} is a Git LFS pointer (Size: {file_size} bytes), not the actual model data. "
+                            "The binary weights are missing from the deployment. Run 'git lfs push origin main --all' locally."
                         )
 
         if not os.path.exists(model_file):
