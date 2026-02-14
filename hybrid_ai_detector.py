@@ -438,6 +438,7 @@ class HybridAIDetector:
         """Load saved model components"""
         model_file = f"{path}/hybrid_ai_detector_ensemble.pkl"
         feature_file = f"{path}/feature_names_v2.pkl"
+        training_file = f"{path}/training_data.pkl"
         
         # Fallback for the other filename you mentioned
         if not os.path.exists(model_file):
@@ -445,7 +446,7 @@ class HybridAIDetector:
                 model_file = f"{path}/hybrid_ai_detector.pkl"
         
         # Check for Git LFS pointer files (common cause of KeyError: 118)
-        for f_path in [model_file, feature_file]:
+        for f_path in [model_file, feature_file, training_file]:
             if os.path.exists(f_path):
                 file_size = os.path.getsize(f_path)
                 with open(f_path, 'rb') as f:
@@ -469,6 +470,13 @@ class HybridAIDetector:
         self.feature_detector.X_train = ensemble_data.get("X_train")
         self.feature_detector.y_train = ensemble_data.get("y_train")
 
+        # Load training data from separate file if not found in ensemble
+        if (self.feature_detector.X_train is None or self.feature_detector.y_train is None) and os.path.exists(training_file):
+            train_data = joblib.load(training_file)
+            self.feature_detector.X_train = train_data.get("X_train")
+            self.feature_detector.y_train = train_data.get("y_train")
+            print(f"📈 Loaded training data from {training_file}")
+
         self.codebert_detector.clf = ensemble_data.get("codebert_clf")
         self.codebert_detector.train_embeddings = ensemble_data.get("codebert_embeddings")
         self.codebert_detector.y_train = ensemble_data.get("codebert_y_train")
@@ -485,6 +493,12 @@ class HybridAIDetector:
 
     def save_model(self, path="saved_models"):
         os.makedirs(path, exist_ok=True)
+
+        # Save training data separately for easier retraining/feedback
+        joblib.dump({
+            "X_train": self.feature_detector.X_train,
+            "y_train": self.feature_detector.y_train
+        }, f"{path}/training_data.pkl")
 
         # Save ensemble dictionary
         joblib.dump({
