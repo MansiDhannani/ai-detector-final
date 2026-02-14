@@ -25,13 +25,16 @@ async def startup_event():
     global detector, initialization_error
     try:
         detector = HybridAIDetector()
-        # Standard path for Railway and Local
-        model_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "saved_models")
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        saved_models_path = os.path.join(base_dir, "saved_models")
         
-        if not os.path.exists(model_path):
-            raise FileNotFoundError(f"The directory {model_path} does not exist.")
-
-        detector.load_pretrained(path=model_path)
+        # Check if saved_models exists and has files, otherwise look in root
+        if os.path.exists(saved_models_path) and any(f.endswith('.pkl') for f in os.listdir(saved_models_path)):
+            print(f"📂 Loading from folder: {saved_models_path}")
+            detector.load_pretrained(path=saved_models_path)
+        else:
+            print(f"🏠 Loading from root: {base_dir}")
+            detector.load_pretrained(path=base_dir)
 
         if detector and getattr(detector.feature_detector, 'is_trained', False):
             print("✅ Hybrid AI Detector loaded successfully")
