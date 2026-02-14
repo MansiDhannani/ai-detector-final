@@ -439,11 +439,10 @@ class HybridAIDetector:
         model_file = f"{path}/hybrid_ai_detector_ensemble.pkl"
         feature_file = f"{path}/feature_names_v2.pkl"
         
-        # Fallback for alternative filename
+        # Fallback for the other filename you mentioned
         if not os.path.exists(model_file):
-            alt_model_file = f"{path}/hybrid_ai_detector.pkl"
-            if os.path.exists(alt_model_file):
-                model_file = alt_model_file
+            if os.path.exists(f"{path}/hybrid_ai_detector.pkl"):
+                model_file = f"{path}/hybrid_ai_detector.pkl"
         
         # Check for Git LFS pointer files (common cause of KeyError: 118)
         for f_path in [model_file, feature_file]:
@@ -456,6 +455,13 @@ class HybridAIDetector:
                             f"File {f_path} is a Git LFS pointer (Size: {file_size} bytes), not the actual model data. "
                             "The binary weights are missing from the deployment. Run 'git lfs push origin main --all' locally."
                         )
+        
+        # Fallback for different naming conventions across scripts
+        if not os.path.exists(model_file):
+            alt_model_file = os.path.join(path, "hybrid_ai_detector.pkl")
+            if os.path.exists(alt_model_file):
+                model_file = alt_model_file
+                print(f"ℹ️ Using alternative model file: {model_file}")
 
         if not os.path.exists(model_file):
             raise FileNotFoundError(f"Model file not found at {model_file}. Ensure models are pushed to the repository.")
@@ -767,10 +773,18 @@ def detect(text: str):
         try:
             # Railway environment variable check
             use_gpu = os.environ.get("USE_GPU", "false").lower() == "true"
+            print(f"Initializing detector (GPU={use_gpu})...")
             _detector_instance = HybridAIDetector(use_gpu=use_gpu)
-            # Use absolute path resolution for the Railway environment
-            base_path = Path(__file__).parent / "saved_models"
-            _detector_instance.load_pretrained(path=str(base_path))
+            
+            # Try multiple paths for Railway environment
+            base_dir = Path(__file__).parent
+            paths_to_try = [base_dir / "saved_models", base_dir]
+            
+            for p in paths_to_try:
+                if (p / "hybrid_ai_detector_ensemble.pkl").exists() or (p / "hybrid_ai_detector.pkl").exists():
+                    _detector_instance.load_pretrained(path=str(p))
+                    break
+            
         except Exception as e:
             raise RuntimeError(f"Failed to initialize detector: {str(e)}")
     return _detector_instance.detect(text)

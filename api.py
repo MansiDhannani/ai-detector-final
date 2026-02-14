@@ -26,12 +26,13 @@ async def startup_event():
     try:
         detector = HybridAIDetector()
         # Try multiple paths to find the saved_models folder
+        base_dir = os.path.dirname(os.path.abspath(__file__))
         possible_paths = [
-            os.path.join(os.path.dirname(os.path.abspath(__file__)), "saved_models"),
+            os.path.join(base_dir, "saved_models"),
             os.path.join(os.getcwd(), "saved_models")
         ]
         for path in possible_paths:
-            if os.path.exists(path):
+            if os.path.exists(os.path.join(path, "hybrid_ai_detector_ensemble.pkl")):
                 detector.load_pretrained(path=path)
                 break
         print("✅ Hybrid AI Detector loaded successfully")
