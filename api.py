@@ -36,7 +36,11 @@ async def startup_event():
                os.path.exists(os.path.join(path, "hybrid_ai_detector.pkl")):
                 detector.load_pretrained(path=path)
                 break
-        print("✅ Hybrid AI Detector loaded successfully")
+        
+        if detector and getattr(detector.feature_detector, 'is_trained', False):
+            print("✅ Hybrid AI Detector loaded successfully")
+        else:
+            raise FileNotFoundError("Model files found but detector failed to initialize correctly.")
     except Exception as e:
         initialization_error = str(e)
         print(f"❌ Initialization failed: {initialization_error}")
