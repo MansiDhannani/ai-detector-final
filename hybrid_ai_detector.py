@@ -455,13 +455,6 @@ class HybridAIDetector:
                             f"File {f_path} is a Git LFS pointer (Size: {file_size} bytes), not the actual model data. "
                             "The binary weights are missing from the deployment. Run 'git lfs push origin main --all' locally."
                         )
-        
-        # Fallback for different naming conventions across scripts
-        if not os.path.exists(model_file):
-            alt_model_file = os.path.join(path, "hybrid_ai_detector.pkl")
-            if os.path.exists(alt_model_file):
-                model_file = alt_model_file
-                print(f"ℹ️ Using alternative model file: {model_file}")
 
         if not os.path.exists(model_file):
             raise FileNotFoundError(f"Model file not found at {model_file}. Ensure models are pushed to the repository.")

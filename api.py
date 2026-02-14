@@ -32,7 +32,8 @@ async def startup_event():
             os.path.join(os.getcwd(), "saved_models")
         ]
         for path in possible_paths:
-            if os.path.exists(os.path.join(path, "hybrid_ai_detector_ensemble.pkl")):
+            if os.path.exists(os.path.join(path, "hybrid_ai_detector_ensemble.pkl")) or \
+               os.path.exists(os.path.join(path, "hybrid_ai_detector.pkl")):
                 detector.load_pretrained(path=path)
                 break
         print("✅ Hybrid AI Detector loaded successfully")
