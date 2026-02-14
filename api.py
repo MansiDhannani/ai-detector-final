@@ -18,10 +18,11 @@ app.add_middleware(
 
 # Initialize detector
 detector = None
+initialization_error = None
 
 @app.on_event("startup")
 async def startup_event():
-    global detector
+    global detector, initialization_error
     try:
         detector = HybridAIDetector()
         # Try multiple paths to find the saved_models folder
@@ -35,13 +36,19 @@ async def startup_event():
                 break
         print("✅ Hybrid AI Detector loaded successfully")
     except Exception as e:
-        print(f"❌ Initialization failed: {str(e)}")
+        initialization_error = str(e)
+        print(f"❌ Initialization failed: {initialization_error}")
         # We don't raise here so the API can still start and report its status
 
 @app.get("/")
 def root():
-    status = "running" if detector and detector.feature_detector.is_trained else "loading/error"
-    return {"status": f"AI Code Detector API {status}"}
+    if detector and getattr(detector.feature_detector, 'is_trained', False):
+        return {"status": "AI Code Detector API running"}
+    
+    return {
+        "status": "AI Code Detector API loading/error",
+        "detail": initialization_error or "Detector is still initializing or model files were not found."
+    }
 
 @app.post("/detect")
 def detect(payload: CodeRequest):
