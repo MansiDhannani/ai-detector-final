@@ -29,15 +29,27 @@ async def startup_event():
         base_dir = os.path.dirname(os.path.abspath(__file__))
         possible_paths = [
             os.path.join(base_dir, "saved_models"),
+            base_dir,
+            os.getcwd(),
             os.path.join(os.getcwd(), "saved_models")
         ]
-        for path in possible_paths:
-            if os.path.exists(os.path.join(path, "hybrid_ai_detector_ensemble.pkl")) or \
-               os.path.exists(os.path.join(path, "hybrid_ai_detector.pkl")):
-                detector.load_pretrained(path=path)
-                break
         
-        if detector and getattr(detector.feature_detector, 'is_trained', False):
+        success = False
+        for path in possible_paths:
+            try:
+                if os.path.exists(os.path.join(path, "hybrid_ai_detector_ensemble.pkl")) or \
+                   os.path.exists(os.path.join(path, "hybrid_ai_detector.pkl")):
+                    detector.load_pretrained(path=path)
+                    success = True
+                    print(f"✅ Model loaded successfully from: {path}")
+                    break
+            except RuntimeError as e:
+                if "Git LFS pointer" in str(e):
+                    print(f"⚠️ Found LFS pointer at {path}, searching elsewhere...")
+                    continue
+                raise e
+        
+        if success and detector and getattr(detector.feature_detector, 'is_trained', False):
             print("✅ Hybrid AI Detector loaded successfully")
         else:
             raise FileNotFoundError("Model files found but detector failed to initialize correctly.")
