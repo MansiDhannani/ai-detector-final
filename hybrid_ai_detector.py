@@ -439,6 +439,12 @@ class HybridAIDetector:
         model_file = f"{path}/hybrid_ai_detector_ensemble.pkl"
         feature_file = f"{path}/feature_names_v2.pkl"
         
+        # Fallback for alternative filename
+        if not os.path.exists(model_file):
+            alt_model_file = f"{path}/hybrid_ai_detector.pkl"
+            if os.path.exists(alt_model_file):
+                model_file = alt_model_file
+        
         # Check for Git LFS pointer files (common cause of KeyError: 118)
         for f_path in [model_file, feature_file]:
             if os.path.exists(f_path):
