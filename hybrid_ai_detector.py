@@ -236,6 +236,18 @@ class CodeBERTWrapper:
     
     def __init__(self, device='cpu'):
         self.device = torch.device(device)
+        self.tokenizer = None
+        self.model = None
+        self.clf = LogisticRegression(max_iter=1000)
+        self.train_embeddings = None
+        self.y_train = None
+        self.is_trained = False
+
+    def load_model(self):
+        """Load CodeBERT model and tokenizer once"""
+        if self.model is not None:
+            return
+            
         print("📥 Loading CodeBERT for feature extraction...")
         self.tokenizer = AutoTokenizer.from_pretrained('microsoft/codebert-base')
         self.model = AutoModel.from_pretrained('microsoft/codebert-base').to(self.device)
@@ -251,15 +263,13 @@ class CodeBERTWrapper:
         for param in self.model.parameters():
             param.requires_grad = False
         self.model.eval()
-
-        self.clf = LogisticRegression(max_iter=1000)
-        self.train_embeddings = None
-        self.y_train = None
-        self.is_trained = False
         print("✅ CodeBERT loaded")
         
     def get_embeddings(self, codes: List[str]) -> torch.Tensor:
         """Extract [CLS] token embeddings"""
+        if self.model is None:
+            self.load_model()
+            
         all_embeddings = []
         batch_size = 8
         with torch.inference_mode():
@@ -276,6 +286,7 @@ class CodeBERTWrapper:
     def train(self, human_codes: List[str], ai_codes: List[str]):
         """Train the lightweight classifier on CodeBERT embeddings"""
         print("🧠 Extracting CodeBERT embeddings for training...")
+        self.load_model()
         codes = human_codes + ai_codes
         y = np.array([0] * len(human_codes) + [1] * len(ai_codes))
         self.train_embeddings = self.get_embeddings(codes)
@@ -438,6 +449,7 @@ class HybridAIDetector:
         print()
         
         # Train CodeBERT
+        self.codebert_detector.load_model()
         self.codebert_detector.train(human_codes, ai_codes)
         print()
         
@@ -485,6 +497,10 @@ class HybridAIDetector:
         ensemble_data = joblib.load(model_file)
         
         self.feature_detector.model = ensemble_data.get("xgb_base_model")
+        
+        # Ensure CodeBERT is loaded for inference
+        self.codebert_detector.load_model()
+        
         self.feature_detector.calibrated_model = ensemble_data["xgb_model"]
         self.feature_detector.X_train = ensemble_data.get("X_train")
         self.feature_detector.y_train = ensemble_data.get("y_train")
