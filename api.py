@@ -3,51 +3,73 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from hybrid_ai_detector import HybridAIDetector
 from pathlib import Path
-from contextlib import asynccontextmanager
 import logging
+
+# ---------------------------
+# Request Model
+# ---------------------------
 
 class CodeRequest(BaseModel):
     code: str
 
-# Setup logging
+
+# ---------------------------
+# Logging Setup
+# ---------------------------
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# Initialize detector
+
+# ---------------------------
+# Global Variables
+# ---------------------------
+
 detector = None
 initialization_error = None
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
+
+# ---------------------------
+# Lazy Model Loader
+# ---------------------------
+
+def get_detector():
     global detector, initialization_error
-    try:
-        detector = HybridAIDetector()
-        base_dir = Path(__file__).resolve().parent
-        saved_models_path = base_dir / "saved_models"
-        
-        success = False
-        if saved_models_path.exists():
-            try:
-                logger.info(f"📂 [Step 1/2] Attempting to load from folder: {saved_models_path}")
+
+    if detector is None:
+        try:
+            logger.info("🚀 Initializing Hybrid AI Detector (lazy load)...")
+
+            detector = HybridAIDetector()
+            base_dir = Path(__file__).resolve().parent
+            saved_models_path = base_dir / "saved_models"
+
+            # Try loading from saved_models folder
+            if saved_models_path.exists():
+                logger.info(f"📂 Loading model from folder: {saved_models_path}")
                 detector.load_pretrained(path=str(saved_models_path))
-                success = True
-            except Exception as e:
-                logger.warning(f"⚠️ Folder load skipped/failed: {e}. Moving to Step 2...")
+            else:
+                logger.info(f"🏠 Loading model from root: {base_dir}")
+                detector.load_pretrained(path=str(base_dir))
 
-        if not success:
-            logger.info(f"🏠 [Step 2/2] Attempting to load from root: {base_dir}")
-            detector.load_pretrained(path=str(base_dir))
+            if detector and getattr(detector.feature_detector, 'is_trained', False):
+                logger.info("✅ Hybrid AI Detector loaded successfully")
+            else:
+                raise RuntimeError("Detector initialized but 'is_trained' flag is False.")
 
-        if detector and getattr(detector.feature_detector, 'is_trained', False):
-            logger.info("✅ Hybrid AI Detector loaded successfully")
-        else:
-            raise RuntimeError("Detector initialized but 'is_trained' flag is False.")
-    except Exception as e:
-        initialization_error = str(e)
-        logger.error(f"❌ Initialization failed: {initialization_error}")
-    yield
+        except Exception as e:
+            initialization_error = str(e)
+            logger.error(f"❌ Initialization failed: {initialization_error}")
+            raise
 
-app = FastAPI(lifespan=lifespan)
+    return detector
+
+
+# ---------------------------
+# FastAPI App
+# ---------------------------
+
+app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
@@ -56,24 +78,21 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+# ---------------------------
+# Routes
+# ---------------------------
+
 @app.get("/")
 def root():
-    if detector and getattr(detector.feature_detector, 'is_trained', False):
-        return {"status": "AI Code Detector API running"}
-    
-    return {
-        "status": "AI Code Detector API loading/error",
-        "detail": initialization_error or "Detector is still initializing or model files were not found."
-    }
+    return {"status": "AI Code Detector API running"}
+
 
 @app.post("/detect")
 def detect(payload: CodeRequest):
-    if detector is None or not getattr(detector.feature_detector, 'is_trained', False):
-        raise HTTPException(status_code=503, detail="Detector not initialized. Check logs for Git LFS or memory issues.")
-    
     try:
-        # Use the code from the validated Pydantic model
-        result = detector.detect(payload.code)
+        model = get_detector()  # Lazy load happens here
+        result = model.detect(payload.code)
         return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
