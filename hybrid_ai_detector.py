@@ -7,6 +7,7 @@ Target Accuracy: 91-94%
 
 import torch
 import torch.nn as nn
+from torch.quantization import quantize_dynamic
 from xgboost import XGBClassifier
 from transformers import AutoTokenizer, AutoModel
 from sklearn.ensemble import RandomForestClassifier
@@ -238,6 +239,19 @@ class CodeBERTWrapper:
         print("📥 Loading CodeBERT for feature extraction...")
         self.tokenizer = AutoTokenizer.from_pretrained('microsoft/codebert-base')
         self.model = AutoModel.from_pretrained('microsoft/codebert-base').to(self.device)
+
+        # Apply dynamic quantization to reduce model size and speed up CPU inference
+        self.model = quantize_dynamic(
+            self.model,
+            {torch.nn.Linear},
+            dtype=torch.qint8
+        )
+
+        # Disable gradients and set to evaluation mode
+        for param in self.model.parameters():
+            param.requires_grad = False
+        self.model.eval()
+
         self.clf = LogisticRegression(max_iter=1000)
         self.train_embeddings = None
         self.y_train = None
@@ -395,7 +409,8 @@ class HybridAIDetector:
         
         self.feature_detector = FeatureBasedDetector()
         
-        device = 'cuda' if use_gpu and torch.cuda.is_available() else 'cpu'
+        # Force CPU mode only
+        device = 'cpu'
         print(f"   Using device: {device}")
         self.codebert_detector = CodeBERTWrapper(device=device)
         
@@ -784,10 +799,9 @@ def detect(text: str):
     global _detector_instance
     if _detector_instance is None:
         try:
-            # Railway environment variable check
-            use_gpu = os.environ.get("USE_GPU", "false").lower() == "true"
-            print(f"Initializing detector (GPU={use_gpu})...")
-            _detector_instance = HybridAIDetector(use_gpu=use_gpu)
+            # Force CPU mode only
+            print("Initializing detector (CPU mode forced)...")
+            _detector_instance = HybridAIDetector(use_gpu=False)
             
             # Try multiple paths for Railway environment
             base_dir = Path(__file__).parent

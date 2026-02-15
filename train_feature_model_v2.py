@@ -2,6 +2,7 @@ import joblib
 import numpy as np
 import pandas as pd
 import torch
+from torch.quantization import quantize_dynamic
 from xgboost import XGBClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
@@ -76,9 +77,22 @@ calibrated_xgb.fit(X_train, y_train)
 # TRAIN CODEBERT CLASSIFIER
 # -----------------------------------
 print("📥 Loading CodeBERT for feature extraction...")
-device = 'cuda' if torch.cuda.is_available() else 'cpu'
+# Force CPU mode only
+device = 'cpu'
 tokenizer = AutoTokenizer.from_pretrained('microsoft/codebert-base')
 codebert_model = AutoModel.from_pretrained('microsoft/codebert-base').to(device)
+
+# Apply dynamic quantization
+codebert_model = quantize_dynamic(
+    codebert_model,
+    {torch.nn.Linear},
+    dtype=torch.qint8
+)
+
+# Disable gradients and set to evaluation mode
+for param in codebert_model.parameters():
+    param.requires_grad = False
+codebert_model.eval()
 
 def get_embeddings(codes):
     codebert_model.eval()
