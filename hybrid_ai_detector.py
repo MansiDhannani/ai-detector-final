@@ -260,8 +260,6 @@ class CodeBERTWrapper:
         
     def get_embeddings(self, codes: List[str]) -> torch.Tensor:
         """Extract [CLS] token embeddings"""
-        self.model.to(self.device)
-        self.model.eval()
         all_embeddings = []
         batch_size = 8
         with torch.inference_mode():

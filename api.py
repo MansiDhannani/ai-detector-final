@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from hybrid_ai_detector import HybridAIDetector
 from pathlib import Path
+from contextlib import asynccontextmanager
 import logging
 
 # ---------------------------
@@ -69,7 +70,17 @@ def get_detector():
 # FastAPI App
 # ---------------------------
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Load the model once at startup to avoid latency and potential timeouts on the first request
+    try:
+        get_detector()
+    except Exception:
+        # Error is already logged in get_detector
+        pass
+    yield
+
+app = FastAPI(lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
