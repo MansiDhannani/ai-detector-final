@@ -450,12 +450,14 @@ class HybridAIDetector:
         required_files = [model_file, feature_file]
         optional_files = [training_file]
         
+        # Check LFS status for all existing files
         for f_path in required_files + [f for f in optional_files if os.path.exists(f)]:
             if os.path.exists(f_path):
                 file_size = os.path.getsize(f_path)
                 with open(f_path, 'rb') as f:
                     header = f.read(100)
-                    if b"version https://git-lfs" in header:
+                    # Only raise error if a REQUIRED file is an LFS pointer
+                    if b"version https://git-lfs" in header and f_path in required_files:
                         raise RuntimeError(
                             f"File {f_path} is a Git LFS pointer (Size: {file_size} bytes), not the actual model data. "
                             "The binary weights are missing from the deployment. Run 'git lfs push origin main --all' locally."

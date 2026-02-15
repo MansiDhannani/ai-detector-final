@@ -1,8 +1,10 @@
 training_data/
 raw_data/
-__pycache__/
+raw_kaggle/
 .git/
-.github/
-venv/
-training_data.pkl
+__pycache__/
 *.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+dataset_report.json

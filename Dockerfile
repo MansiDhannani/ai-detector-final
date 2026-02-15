@@ -1,24 +1,26 @@
 FROM python:3.10-slim
 
+# Prevent Python from writing .pyc files and enable unbuffered logging
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
 WORKDIR /app
 
-# Install system dependencies and clean up in one layer
-RUN apt-get update && apt-get install -y --no-install-recommends git && \
-    rm -rf /var/lib/apt/lists/*
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
+# Copy requirements and install (CPU only)
 COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Upgrade pip and install CPU-only torch to save ~700MB and speed up build
-# Explicitly require v2.6.0+ to fix CVE-2025-32434 security requirement
-# Pre-install typing-extensions to resolve metadata name mismatch in the PyTorch index
-RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir "typing-extensions>=4.10.0" && \
-    pip install --no-cache-dir "torch>=2.6.0" --index-url https://download.pytorch.org/whl/cpu && \
-    pip install --no-cache-dir -r requirements.txt
-
-# Pre-download CodeBERT
+# Pre-download CodeBERT model to bake it into a cached layer
 RUN python -c "from transformers import AutoTokenizer, AutoModel; AutoTokenizer.from_pretrained('microsoft/codebert-base'); AutoModel.from_pretrained('microsoft/codebert-base')"
 
+# Copy the rest of the application
 COPY . .
-# Ensure we use the shell form to expand the PORT variable correctly
-CMD uvicorn api:app --host 0.0.0.0 --port ${PORT:-7860}
+
+EXPOSE 8080
+# Use the PORT variable provided by Railway, defaulting to 8080
+CMD ["sh", "-c", "uvicorn api:app --host 0.0.0.0 --port ${PORT:-8080}"]

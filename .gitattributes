@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 saved_models/*.pkl filter=lfs diff=lfs merge=lfs -text
 *.pkl filter=lfs diff=lfs merge=lfs -text
 ai-detection/*.pkl filter=lfs diff=lfs merge=lfs -text
+=======
+saved_models/*.pkl filter=lfs diff=lfs merge=lfs -text
+*.pkl filter=lfs diff=lfs merge=lfs -text
+ai-detection/*.pkl filter=lfs diff=lfs merge=lfs -text
+>>>>>>> c86e587385eeda967428b6b7a88a2b24df601a46
